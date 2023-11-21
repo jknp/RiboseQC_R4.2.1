@@ -82,7 +82,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
     genome_seq = NULL, stranded = TRUE, normalize_cov = TRUE, chunk_size = 5000000L, 
     write_tmp_files = TRUE, dest_names = NA, rescue_all_rls = FALSE, fast_mode = TRUE, 
     create_report = TRUE, sample_names = NA, report_file = NA, extended_report = FALSE, 
-    pdf_plots = TRUE, offsets_df = NULL, style = "UCSC")) {
+    pdf_plots = TRUE, offsets_df = NULL, style = "UCSC") {
     
     if (length(dest_names) == 1) {
         if (is.na(dest_names)) {
