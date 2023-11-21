@@ -82,7 +82,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
     genome_seq = NULL, stranded = TRUE, normalize_cov = TRUE, chunk_size = 5000000L, 
     write_tmp_files = TRUE, dest_names = NA, rescue_all_rls = FALSE, fast_mode = TRUE, 
     create_report = TRUE, sample_names = NA, report_file = NA, extended_report = FALSE, 
-    pdf_plots = TRUE, offsets_df = NULL) {
+    pdf_plots = TRUE, offsets_df = NULL, style = "UCSC")) {
     
     if (length(dest_names) == 1) {
         if (is.na(dest_names)) {
@@ -229,7 +229,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
     }
     
     list_annotations <- list()
-    
+    seqlevelsStyle(annotation_file$seqinfo) <- style
     for (annots in seq_along(annotation_file)) {
         cat(paste("Loading annotation files in ", annotation_file[annots], " ... ", 
             date(), "\n", sep = ""))
@@ -377,9 +377,10 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                   reads_y <- y[["reads_pos1"]][[rl]]
                 }
 
-                #This needs to go after the above                
-                seqlevels(reads_x) <- seql
-                seqlevels(reads_y) <- seql
+                #This needs to go after the above
+                #JK: added pruning mode coarse to drop non-canonical chr levels
+                seqlevels(reads_x, pruning.mode="coarse") <- seql
+                seqlevels(reads_y, pruning.mode="coarse") <- seql
                 
                 seqlengths(reads_x) <- seqle
                 seqlengths(reads_y) <- seqle
@@ -1156,8 +1157,8 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                 reads_x <- GRanges()
                 reads_y <- GRanges()
                 
-                seqlevels(reads_x) <- seqllll
-                seqlevels(reads_y) <- seqllll
+                seqlevels(reads_x, pruning.mode="coarse") <- seqllll
+                seqlevels(reads_y, pruning.mode="coarse") <- seqllll
                 
                 seqlengths(reads_x) <- seqleee
                 seqlengths(reads_y) <- seqleee
