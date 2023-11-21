@@ -82,7 +82,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
     genome_seq = NULL, stranded = TRUE, normalize_cov = TRUE, chunk_size = 5000000L, 
     write_tmp_files = TRUE, dest_names = NA, rescue_all_rls = FALSE, fast_mode = TRUE, 
     create_report = TRUE, sample_names = NA, report_file = NA, extended_report = FALSE, 
-    pdf_plots = TRUE, offsets_df = NULL, style = "UCSC") {
+    pdf_plots = TRUE, offsets_df = NULL) {
     
     if (length(dest_names) == 1) {
         if (is.na(dest_names)) {
@@ -229,7 +229,6 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
     }
     
     list_annotations <- list()
-    seqlevelsStyle(annotation_file$seqinfo) <- style
     for (annots in seq_along(annotation_file)) {
         cat(paste("Loading annotation files in ", annotation_file[annots], " ... ", 
             date(), "\n", sep = ""))
@@ -1213,8 +1212,8 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                 reads_x <- GRanges()
                 reads_y <- GRanges()
                 
-                seqlevels(reads_x) <- seqllll
-                seqlevels(reads_y) <- seqllll
+                seqlevels(reads_x, pruning.mode="coarse") <- seqllll
+                seqlevels(reads_y, pruning.mode="coarse") <- seqllll
                 
                 seqlengths(reads_x) <- seqleee
                 seqlengths(reads_y) <- seqleee
@@ -1269,8 +1268,8 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                 reads_x <- GRanges()
                 reads_y <- GRanges()
                 
-                seqlevels(reads_x) <- seqllll
-                seqlevels(reads_y) <- seqllll
+                seqlevels(reads_x, pruning.mode="coarse") <- seqllll
+                seqlevels(reads_y, pruning.mode="coarse") <- seqllll
                 
                 seqlengths(reads_x) <- seqleee
                 seqlengths(reads_y) <- seqleee
@@ -1452,9 +1451,9 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                 uniq_rl_ps <- GRangesList()
                 uniq_rl_mm_ps <- GRangesList()
                 
-                seqlevels(all_rl_ps) <- seqllll
-                seqlevels(uniq_rl_ps) <- seqllll
-                seqlevels(uniq_rl_mm_ps) <- seqllll
+                seqlevels(all_rl_ps, pruning.mode="coarse") <- seqllll
+                seqlevels(uniq_rl_ps, pruning.mode="coarse") <- seqllll
+                seqlevels(uniq_rl_mm_ps, pruning.mode="coarse") <- seqllll
                 
                 seqlengths(all_rl_ps) <- seqleee
                 seqlengths(uniq_rl_ps) <- seqleee
@@ -1473,9 +1472,9 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                   all_ps <- GRangesList()
                   uniq_ps <- GRangesList()
                   uniq_mm_ps <- GRangesList()
-                  seqlevels(all_ps) <- seqllll
-                  seqlevels(uniq_ps) <- seqllll
-                  seqlevels(uniq_mm_ps) <- seqllll
+                  seqlevels(all_ps, pruning.mode="coarse") <- seqllll
+                  seqlevels(uniq_ps, pruning.mode="coarse") <- seqllll
+                  seqlevels(uniq_mm_ps, pruning.mode="coarse") <- seqllll
                   
                   seqlengths(all_ps) <- seqleee
                   seqlengths(uniq_ps) <- seqleee
@@ -1487,7 +1486,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                   ok_reads <- ok_reads[as.vector(seqnames(ok_reads)) %in% chroms]
                   
                   ps_plus <- GRanges()
-                  seqlevels(ps_plus) <- seqllll
+                  seqlevels(ps_plus, pruning.mode="coarse") <- seqllll
                   seqlengths(ps_plus) <- seqleee
                   ps_plus_uniq <- ps_plus
                   ps_plus_uniq_mm <- ps_plus
@@ -1517,7 +1516,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                     
                     
                     ps_spl <- GRanges()
-                    seqlevels(ps_spl) <- seqllll
+                    seqlevels(ps_spl, pruning.mode="coarse") <- seqllll
                     seqlengths(ps_spl) <- seqleee
                     
                     if (length(multi) > 0) {
@@ -1526,10 +1525,10 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                     }
                     mcols(ps_spl) <- mcols(multi)
                     
-                    seqlevels(firstok) <- seqllll
-                    seqlevels(lastok) <- seqllll
-                    seqlevels(ps_unspl) <- seqllll
-                    seqlevels(ps_spl) <- seqllll
+                    seqlevels(firstok, pruning.mode="coarse") <- seqllll
+                    seqlevels(lastok, pruning.mode="coarse") <- seqllll
+                    seqlevels(ps_unspl, pruning.mode="coarse") <- seqllll
+                    seqlevels(ps_spl, pruning.mode="coarse") <- seqllll
                     
                     seqlengths(firstok) <- seqleee
                     seqlengths(lastok) <- seqleee
@@ -1554,7 +1553,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                   ok_reads <- ok_reads[as.vector(seqnames(ok_reads)) %in% chroms]
                   
                   ps_neg <- GRanges()
-                  seqlevels(ps_neg) <- seqllll
+                  seqlevels(ps_neg, pruning.mode="coarse") <- seqllll
                   seqlengths(ps_neg) <- seqleee
                   ps_neg_uniq <- ps_neg
                   ps_neg_uniq_mm <- ps_neg
@@ -1584,7 +1583,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                     
                     
                     ps_spl <- GRanges()
-                    seqlevels(ps_spl) <- seqllll
+                    seqlevels(ps_spl, pruning.mode="coarse") <- seqllll
                     seqlengths(ps_spl) <- seqleee
                     
                     
@@ -1593,10 +1592,10 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                     }
                     mcols(ps_spl) <- mcols(multi)
                     
-                    seqlevels(firstok) <- seqllll
-                    seqlevels(lastok) <- seqllll
-                    seqlevels(ps_unspl) <- seqllll
-                    seqlevels(ps_spl) <- seqllll
+                    seqlevels(firstok, pruning.mode="coarse") <- seqllll
+                    seqlevels(lastok, pruning.mode="coarse") <- seqllll
+                    seqlevels(ps_unspl, pruning.mode="coarse") <- seqllll
+                    seqlevels(ps_spl, pruning.mode="coarse") <- seqllll
                     
                     seqlengths(firstok) <- seqleee
                     seqlengths(lastok) <- seqleee
@@ -1653,19 +1652,19 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
             
             
             all_ps_comps <- GRangesList()
-            seqlevels(all_ps_comps) <- seqllll
+            seqlevels(all_ps_comps, pruning.mode="coarse") <- seqllll
             seqlengths(all_ps_comps) <- seqleee
             rls_comps <- unique(unlist(lapply(list_pss, FUN = function(x) names(x[["P_sites_all"]]))))
             for (rl in rls_comps) {
                 reads_rl_comp <- GRanges()
-                seqlevels(reads_rl_comp) <- seqllll
+                seqlevels(reads_rl_comp, pruning.mode="coarse") <- seqllll
                 seqlengths(reads_rl_comp) <- seqleee
                 for (comp in names(list_pss)) {
                   if (sum(rl %in% names(list_pss[[comp]][["P_sites_all"]])) > 0) {
                     oth <- list_pss[[comp]][["P_sites_all"]][[rl]]
                     
                     if (!is.null(oth)) {
-                      seqlevels(oth) <- seqllll
+                      seqlevels(oth, pruning.mode="coarse") <- seqllll
                       seqlengths(oth) <- seqleee
                       reads_rl_comp <- c(reads_rl_comp, oth)
                     }
@@ -1676,7 +1675,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
             }
             
             uniq_ps_comps <- GRangesList()
-            seqlevels(uniq_ps_comps) <- seqllll
+            seqlevels(uniq_ps_comps, pruning.mode="coarse") <- seqllll
             seqlengths(uniq_ps_comps) <- seqleee
             rls_comps <- unique(unlist(lapply(list_pss, FUN = function(x) names(x[["P_sites_uniq"]]))))
             for (rl in rls_comps) {
@@ -1688,7 +1687,7 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
                     oth <- list_pss[[comp]][["P_sites_uniq"]][[rl]]
                     
                     if (!is.null(oth)) {
-                      seqlevels(oth) <- seqllll
+                      seqlevels(oth, pruning.mode="coarse") <- seqllll
                       seqlengths(oth) <- seqleee
                       reads_rl_comp <- c(reads_rl_comp, oth)
                     }
@@ -1699,19 +1698,19 @@ RiboseQC_analysis <- function(annotation_file, bam_files, read_subset = TRUE, re
             }
             
             uniq_mm_ps_comps <- GRangesList()
-            seqlevels(uniq_mm_ps_comps) <- seqllll
+            seqlevels(uniq_mm_ps_comps, pruning.mode="coarse") <- seqllll
             seqlengths(uniq_mm_ps_comps) <- seqleee
             rls_comps <- unique(unlist(lapply(list_pss, FUN = function(x) names(x[["P_sites_uniq_mm"]]))))
             for (rl in rls_comps) {
                 reads_rl_comp <- GRanges()
-                seqlevels(reads_rl_comp) <- seqllll
+                seqlevels(reads_rl_comp, pruning.mode="coarse") <- seqllll
                 seqlengths(reads_rl_comp) <- seqleee
                 for (comp in names(list_pss)) {
                   if (sum(rl %in% names(list_pss[[comp]][["P_sites_uniq_mm"]])) > 
                     0) {
                     oth <- list_pss[[comp]][["P_sites_uniq_mm"]][[rl]]
                     if (!is.null(oth)) {
-                      seqlevels(oth) <- seqllll
+                      seqlevels(oth, pruning.mode="coarse") <- seqllll
                       seqlengths(oth) <- seqleee
                       reads_rl_comp <- c(reads_rl_comp, oth)
                     }
